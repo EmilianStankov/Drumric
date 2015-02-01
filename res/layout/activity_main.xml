@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,11 +6,55 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.emilianstankov.drumric.MainActivity" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+    <LinearLayout
+        android:id="@+id/top_row"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5" >
+        <Button 
+            android:id="@+id/pad1"
+            android:text="Pad1"
+            style="@style/Pad"/>
+        <Button 
+            android:id="@+id/pad2"
+            android:text="Pad2"
+            style="@style/Pad"/>
+        <Button 
+            android:id="@+id/pad3"
+            android:text="Pad3"
+            style="@style/Pad"/>
+        <Button 
+            android:id="@+id/pad4"
+            android:text="Pad4"
+            style="@style/Pad"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/bottom_row"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5" >
+        <Button 
+            android:id="@+id/pad5"
+            android:text="Pad5"
+            style="@style/Pad"/>
+        <Button 
+            android:id="@+id/pad6"
+            android:text="Pad6"
+            style="@style/Pad"/>
+        <Button 
+            android:id="@+id/pad7"
+            android:text="Pad7"
+            style="@style/Pad"/>
+        <Button 
+            android:id="@+id/pad8"
+            android:text="Pad8"
+            style="@style/Pad"/>
+    </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
