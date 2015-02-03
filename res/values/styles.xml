@@ -22,8 +22,23 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">0.23</item>
         <item name="android:textColor">#DDFFDD</item>
-        <item name="android:textSize">40sp</item>
+        <item name="android:textSize">60sp</item>
         <item name="android:background">@drawable/btn_selector</item>
         <item name="android:layout_margin">5dp</item>
+    </style>
+    <style name="MenuButton" parent="AppBaseTheme">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">40dp</item>
+        <item name="android:textColor">#DDFFDD</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@drawable/settings</item>
+        <item name="android:layout_marginRight">10dp</item>
+    </style>
+    <style name="ResetButton" parent="AppBaseTheme">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">40dp</item>
+        <item name="android:textColor">#DDFFDD</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@drawable/reset</item>
     </style>
 </resources>

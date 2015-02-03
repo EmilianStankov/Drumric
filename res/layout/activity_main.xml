@@ -5,31 +5,89 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingTop="0dp"
     android:orientation="vertical"
-    tools:context="com.emilianstankov.drumric.MainActivity" >
-
+    tools:context="com.emilianstankov.drumric.MainActivity"
+    android:background="@drawable/background" >
+	
+    <LinearLayout 
+        android:id="@+id/menu"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1">
+        <com.emilianstankov.drumric.SquareButton 
+            android:id="@+id/rec1"
+            style="@style/MenuButton"
+            android:text="1"
+            android:gravity="left|top"/>
+        <com.emilianstankov.drumric.SquareButton 
+            android:id="@+id/rec2"
+            style="@style/MenuButton"
+            android:text="2"
+            android:gravity="left|top"/>
+        <com.emilianstankov.drumric.SquareButton 
+            android:id="@+id/rec3"
+            style="@style/MenuButton"
+            android:text="3"
+            android:gravity="left|top"/>
+        <com.emilianstankov.drumric.SquareButton 
+            android:id="@+id/rec4"
+            style="@style/MenuButton"
+            android:text="4"
+            android:gravity="left|top"/>
+        <com.emilianstankov.drumric.SquareButton 
+            android:id="@+id/rec5"
+            style="@style/MenuButton"
+            android:text="5"
+            android:gravity="left|top"/>
+        <com.emilianstankov.drumric.SquareButton 
+            android:id="@+id/rec6"
+            style="@style/MenuButton"
+            android:text="6"
+            android:gravity="left|top"/>
+        <com.emilianstankov.drumric.SquareButton 
+            android:id="@+id/rec7"
+            style="@style/MenuButton"
+            android:text="7"
+            android:gravity="left|top"/>
+        <com.emilianstankov.drumric.SquareButton 
+            android:id="@+id/rec8"
+            style="@style/MenuButton"
+            android:text="8"
+            android:gravity="left|top"/>
+        <RelativeLayout 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.emilianstankov.drumric.SquareButton 
+	            android:id="@+id/reset"
+	            style="@style/ResetButton"
+	            android:layout_alignParentRight="true"
+	            android:gravity="right|top"/>
+        </RelativeLayout>
+        
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/top_row"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5" >
+        android:layout_weight="0.45" >
         <Button 
             android:id="@+id/pad1"
-            android:text="Pad1"
+            android:text="1"
             style="@style/Pad"/>
         <Button 
             android:id="@+id/pad2"
-            android:text="Pad2"
+            android:text="2"
             style="@style/Pad"/>
         <Button 
             android:id="@+id/pad3"
-            android:text="Pad3"
+            android:text="3"
             style="@style/Pad"/>
         <Button 
             android:id="@+id/pad4"
-            android:text="Pad4"
+            android:text="4"
             style="@style/Pad"/>
     </LinearLayout>
     
@@ -38,22 +96,22 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5" >
+        android:layout_weight="0.45" >
         <Button 
             android:id="@+id/pad5"
-            android:text="Pad5"
+            android:text="5"
             style="@style/Pad"/>
         <Button 
             android:id="@+id/pad6"
-            android:text="Pad6"
+            android:text="6"
             style="@style/Pad"/>
         <Button 
             android:id="@+id/pad7"
-            android:text="Pad7"
+            android:text="7"
             style="@style/Pad"/>
         <Button 
             android:id="@+id/pad8"
-            android:text="Pad8"
+            android:text="8"
             style="@style/Pad"/>
     </LinearLayout>
 
