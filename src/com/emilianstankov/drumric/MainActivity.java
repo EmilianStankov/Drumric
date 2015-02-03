@@ -1,5 +1,6 @@
 package com.emilianstankov.drumric;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,18 +18,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
 	
-	private static final int MAX_SAMPLE_DURATION = 2000;
+	private static final int MAX_SAMPLE_DURATION = 5000;
 	private MediaRecorder rec;
 	private boolean recording;
 	private SoundPool sp;
 	private AssetManager am;
 	private ArrayList<Object> sounds;
 	private ArrayList<AssetFileDescriptor> defaultSounds;
+	private ArrayList<Button> recButtons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,6 @@ public class MainActivity extends Activity {
         Button pad7 = (Button)findViewById(R.id.pad7);
         Button pad8 = (Button)findViewById(R.id.pad8);
         Button reset = (Button)findViewById(R.id.reset);
-        final ArrayList<Button> recButtons = new ArrayList<Button>(Arrays.asList(rec1, rec2, rec3, rec4, rec5, rec6, rec7, rec8));
         AssetFileDescriptor defaultCrash = null;
         AssetFileDescriptor defaultTom = null;
         AssetFileDescriptor defaultRim = null;
@@ -63,6 +63,8 @@ public class MainActivity extends Activity {
         AssetFileDescriptor defaultSnare = null;
         AssetFileDescriptor defaultOpenHiHat = null;
         AssetFileDescriptor defaultClosedHiHat = null;
+        recButtons = new ArrayList<Button>(Arrays.asList(rec1, rec2, rec3, rec4, rec5, rec6, rec7, rec8));
+        ArrayList<Button> pads = new ArrayList<Button>(Arrays.asList(pad1, pad2, pad3, pad4, pad5, pad6, pad7, pad8));
 		try {
 			defaultCrash = am.openFd("sounds/crash.wav");
 			defaultTom = am.openFd("sounds/tom.wav");
@@ -73,18 +75,19 @@ public class MainActivity extends Activity {
 	        defaultOpenHiHat = am.openFd("sounds/hhopen.wav");
 	        defaultClosedHiHat = am.openFd("sounds/hhclosed.wav");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         defaultSounds = new ArrayList<AssetFileDescriptor>(Arrays.asList(defaultCrash, defaultTom, defaultRim, defaultClap, defaultKick, defaultSnare, defaultOpenHiHat, defaultClosedHiHat));
         sounds = new ArrayList<Object>(Arrays.asList(defaultCrash, defaultTom, defaultRim, defaultClap, defaultKick, defaultSnare, defaultOpenHiHat, defaultClosedHiHat));
-        for(Object sound: sounds) {
-        	if(defaultSounds.contains(sound))
-        		sp.load((AssetFileDescriptor)sound, 1);
-        	else
-        		sp.load((String)sound, 1);
-		}
-        reset.setOnClickListener(new View.OnClickListener() {
+        fillSoundPool();
+        initializeResetButton(reset);
+        initializeRecordButtons();
+        initializePads(pads);
+    }
+
+
+	private void initializeResetButton(Button reset) {
+		reset.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				sp = new SoundPool(8, AudioManager.STREAM_MUSIC, 0);
@@ -93,7 +96,24 @@ public class MainActivity extends Activity {
 				}
 			}
 		});
-        for(final Button btn: recButtons) {
+	}
+
+
+	private void initializePads(ArrayList<Button> pads) {
+		for(Button btn: pads){
+        	final int index = pads.indexOf(btn) + 1;
+	        btn.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					sp.play(index, 1.0f, 1.0f, 0, 0, 1.0f);
+				}
+			});
+        }
+	}
+
+
+	private void initializeRecordButtons() {
+		for(final Button btn: recButtons) {
 	        btn.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -104,31 +124,22 @@ public class MainActivity extends Activity {
 						stopRecording(btn, getSamplePath(normalizedIndex));
 						sounds.set(recButtons.indexOf(btn), getSamplePath(normalizedIndex));
 						sp = new SoundPool(8, AudioManager.STREAM_MUSIC, 0);
-						for(Object sound: sounds) {
-				        	if(defaultSounds.contains(sound))
-				        		sp.load((AssetFileDescriptor)sound, 1);
-				        	else
-				        		sp.load((String)sound, 1);
-						}
+						fillSoundPool();
 					}
-					Toast.makeText(MainActivity.this, "settings", 100).show();
 				}
+			});
+        }
+	}
 
-				
-			});
-        }
-        ArrayList<Button> pads = new ArrayList<Button>(Arrays.asList(pad1, pad2, pad3, pad4, pad5, pad6, pad7, pad8));
-        for(Button btn: pads){
-        	final int index = pads.indexOf(btn) + 1;
-	        btn.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					sp.play(index, 1.0f, 1.0f, 0, 0, 1.0f);
-					Toast.makeText(MainActivity.this, "clicked", 100).show();
-				}
-			});
-        }
-    }
+
+	private void fillSoundPool() {
+		for(Object sound: sounds) {
+        	if(defaultSounds.contains(sound))
+        		sp.load((AssetFileDescriptor)sound, 1);
+        	else
+        		sp.load((String)sound, 1);
+		}
+	}
 
 
     @Override
@@ -161,13 +172,8 @@ public class MainActivity extends Activity {
         		if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED) { 
         			stopRecording(btn, filename);
         			sp = new SoundPool(8, AudioManager.STREAM_MUSIC, 0);
-					for(Object sound: sounds) {
-			        	if(defaultSounds.contains(sound))
-			        		sp.load((AssetFileDescriptor)sound, 1);
-			        	else
-			        		sp.load((String)sound, 1);
-					}
-        			Toast.makeText(MainActivity.this, "recorded", 100).show();
+        			sounds.set(recButtons.indexOf(btn), getSamplePath(recButtons.indexOf(btn) + 1));
+					fillSoundPool();
         		} 
         	} 
         });
@@ -195,6 +201,22 @@ public class MainActivity extends Activity {
     }
     
     private String getSamplePath(int normalizedIndex) {
-		return Environment.getExternalStorageDirectory().getAbsolutePath()+"/record"+normalizedIndex+".mp4";
+		return Environment.getExternalStorageDirectory().getAbsolutePath()+"/drumric_record"+normalizedIndex+".mp4";
+	}
+    
+    @Override
+    protected void onStop() {
+    	super.onStop();
+    	deleteSamples();
+    }
+
+
+	private void deleteSamples() {
+		for(int i = 1; i <= 8; i++) {
+    		File file = new File(getSamplePath(i));
+    		if (file.exists()){
+                file.delete();
+             }   
+    	}
 	}
 }
