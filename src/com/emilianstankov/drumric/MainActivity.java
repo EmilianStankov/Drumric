@@ -77,8 +77,9 @@ public class MainActivity extends Activity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        defaultSounds = new ArrayList<AssetFileDescriptor>(Arrays.asList(defaultCrash, defaultTom, defaultRim, defaultClap, defaultKick, defaultSnare, defaultOpenHiHat, defaultClosedHiHat));
-        sounds = new ArrayList<Object>(Arrays.asList(defaultCrash, defaultTom, defaultRim, defaultClap, defaultKick, defaultSnare, defaultOpenHiHat, defaultClosedHiHat));
+        defaultSounds = new ArrayList<AssetFileDescriptor>(Arrays.asList(
+        		defaultCrash, defaultTom, defaultRim, defaultClap, defaultKick, defaultSnare, defaultOpenHiHat, defaultClosedHiHat));
+        sounds = new ArrayList<Object>(defaultSounds);
         fillSoundPool();
         initializeResetButton(reset);
         initializeRecordButtons();
@@ -90,9 +91,11 @@ public class MainActivity extends Activity {
 		reset.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				deleteSamples();
+				sounds = new ArrayList<Object>(defaultSounds);
 				sp = new SoundPool(8, AudioManager.STREAM_MUSIC, 0);
 				for(AssetFileDescriptor sound: defaultSounds) {
-		        	sp.load((AssetFileDescriptor)sound, 1);
+		        	sp.load(sound, 1);
 				}
 			}
 		});
@@ -214,9 +217,9 @@ public class MainActivity extends Activity {
 	private void deleteSamples() {
 		for(int i = 1; i <= 8; i++) {
     		File file = new File(getSamplePath(i));
-    		if (file.exists()){
+    		if (file.exists()) {
                 file.delete();
-             }   
+            }   
     	}
 	}
 }
